@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainScreen from './views/MainScreen'
+import RegisterProperty from './views/RegisterProperty'
 import DefaultContainer from './containers/DefaultContainer'
 
 const routes = [
@@ -16,6 +17,11 @@ const routes = [
         path: '/main',
         name: 'Main',
         component: MainScreen
+      },
+      {
+        path: '/registerProperty',
+        name: 'RegisterProperty',
+        component: RegisterProperty
       }
     ]
   }

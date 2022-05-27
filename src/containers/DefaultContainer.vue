@@ -1,32 +1,31 @@
 <template>
-  <div class="flex flex-col justify-between h-screen">
-    <div>
-      <TopBar
-        class="sticky"
-      />
-      <div
-        class="relative flex justify-center"
-      >
-        <router-view
-        />
-      </div>
-    </div>
-    <FooterGeneral
-      class="bottom-0"
+  <div class="flex w-full bg-bertolt-background">
+    <MenuContent
+      class=""
     />
+    <div
+      class="w-full"
+    >
+      <TopBar
+        class=""
+      />
+      <router-view
+        class="p-6"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import TopBar from '../components/container/TopBar'
-import FooterGeneral from '../components/container/FooterGeneral'
+import MenuContent from '../components/container/MenuContent'
 
 export default {
   name: 'DefaultContainer',
 
   components: {
     TopBar,
-    FooterGeneral
+    MenuContent
   }
 }
 </script>

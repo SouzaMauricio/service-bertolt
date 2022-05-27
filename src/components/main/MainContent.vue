@@ -1,8 +1,12 @@
 <template>
   <div
-    class="w-full h-full space-y-10 bg-white"
+    class="w-full h-full space-y-10"
   >
-    MAIN
+    <p
+      class="h-96"
+    >
+      MAIN
+    </p>
   </div>
 </template>
 

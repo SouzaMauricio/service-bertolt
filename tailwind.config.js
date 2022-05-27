@@ -11,7 +11,8 @@ module.exports = {
         'bertolt-primary': '#404960',
         'bertolt-second': '#FFFFFF',
         'bertolt-background': '#FAFAFA',
-        'bertolt-text': '#404960'
+        'bertolt-text': '#404960',
+        'bertolt-text-second': '#FFFFFF'
       },
       maxWidth: {
         'max-content': '80rem'
