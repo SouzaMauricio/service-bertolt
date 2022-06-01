@@ -28,6 +28,7 @@
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
           name="state"
           id="state"
+          v-model="localRelease.state"
         >
           <option
             v-for="(state, index) in stateList"
@@ -78,21 +79,31 @@
           >
         </div>
         <div
-          class="flex items-center"
+          class="w-full"
         >
           <div
             class="space-y-2"
           >
-            <p>
-              Titulo: {{ unit.title }}
-            </p>
+            <div
+              class="flex justify-between"
+            >
+              <p>
+                Titulo: {{ unit.title }}
+              </p>
+              <button
+                class="p-1 rounded-full hover:bg-gray-200"
+                @click="removeUnit(index)"
+              >
+                <span class="text-xl icon-clear"></span>
+              </button>
+            </div>
             <div
               class="flex space-x-4"
             >
               <div
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-house"></span>
+                <span class="text-xl icon-hotel"></span>
                 <p>
                   Quartos: {{ unit.bedroom }}
                 </p>
@@ -108,7 +119,7 @@
               <div
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-house"></span>
+                <span class="text-xl icon-bathtub "></span>
                 <p>
                   Suítes: {{ unit.suites }}
                 </p>
@@ -116,7 +127,7 @@
               <div
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-house"></span>
+                <span class="text-xl icon-restaurant"></span>
                 <p>
                   Cozinhas: {{ unit.kitchen }}
                 </p>
@@ -124,7 +135,15 @@
               <div
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-house"></span>
+                <span class="text-xl icon-weekend"></span>
+                <p>
+                  Salas: {{ unit.livingroom }}
+                </p>
+              </div>
+              <div
+                class="flex items-center space-x-2"
+              >
+                <span class="text-xl icon-drive_eta"></span>
                 <p>
                   Vagas: {{ unit.garages }}
                 </p>
@@ -288,7 +307,7 @@
 
       <div>
         <button
-          class="p-2 rounded-full b bg-bertolt-primary"
+          class="p-2 rounded-full bg-bertolt-primary"
           @click="addNewUnit()"
         >
           <div
@@ -355,6 +374,18 @@ export default {
   methods: {
     addNewUnit () {
       this.localRelease.units.push({ ...this.newUnit })
+      this.newUnit.title = ''
+      this.newUnit.bedroom = ''
+      this.newUnit.balcony = ''
+      this.newUnit.livingroom = ''
+      this.newUnit.garages = ''
+      this.newUnit.suites = ''
+      this.newUnit.bathrooms = ''
+      this.newUnit.images = ''
+    },
+
+    removeUnit (index) {
+      this.localRelease.units.splice(index, 1)
     }
   }
 }

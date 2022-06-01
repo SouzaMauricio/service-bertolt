@@ -61,6 +61,30 @@
     <SavePropertyFormRelease
       :release="property.release"
     />
+    <SavePropertyFormKeywords
+      :keywords="property.keywords"
+      @update-prop="updateProp('keywords', $event)"
+    />
+    <SavePropertyFormCondominium
+      :condominium="property.condominium"
+    />
+    <SavePropertyFormNearby
+      :nearby="property.nearby"
+    />
+    <div
+      class="flex justify-end w-full space-x-4"
+    >
+      <button
+        class="px-6 py-1 font-medium rounded-full hover:opacity-90 hover:bg-gray-200"
+      >
+        Cancelar
+      </button>
+      <button
+        class="px-6 py-1 text-white rounded-full bg-bertolt-primary hover:opacity-90"
+      >
+        Salvar
+      </button>
+    </div>
   </div>
 </template>
 
@@ -76,6 +100,9 @@ import SavePropertyFormLandArea from './SavePropertyFormLandArea'
 import SavePropertyFormLocalization from './SavePropertyFormLocalization'
 import SavePropertyFormEnvironments from './SavePropertyFormEnvironments'
 import SavePropertyFormRelease from './SavePropertyFormRelease'
+import SavePropertyFormKeywords from './SavePropertyFormKeywords'
+import SavePropertyFormCondominium from './SavePropertyFormCondominium'
+import SavePropertyFormNearby from './SavePropertyFormNearby'
 
 export default {
   name: 'SavePropertyForm',
@@ -91,7 +118,10 @@ export default {
     SavePropertyFormLandArea,
     SavePropertyFormLocalization,
     SavePropertyFormEnvironments,
-    SavePropertyFormRelease
+    SavePropertyFormRelease,
+    SavePropertyFormKeywords,
+    SavePropertyFormCondominium,
+    SavePropertyFormNearby
   },
 
   data () {
@@ -110,10 +140,16 @@ export default {
         release: {
           units: []
         },
+        condominium: {
+          price: null,
+          name: '',
+          facilities: []
+        },
         price:{
           rent: null,
           sale: null
-        }
+        },
+        nearby: []
       }
     }
   },
