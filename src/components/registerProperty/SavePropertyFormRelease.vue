@@ -162,7 +162,9 @@
         Adicionar nova unidade
       </p>
 
-      <div>
+      <div
+        class="flex items-end space-x-2"
+      >
         <label
           for="release-title"
           class="w-full space-y-2"
@@ -182,8 +184,14 @@
         </label>
       </div>
       <div
-        class="flex space-x-2"
+        class="flex items-end space-x-2"
       >
+       <form> 
+          <label class="block">
+            <span class="sr-only">Choose File</span>
+            <input type="file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-bertolt-primary file:text-bertolt-text-second hover:file:bg-blue-100 text-be"/>
+          </label>
+        </form> 
         <label
           for="release-bedroom"
           class="space-y-2"

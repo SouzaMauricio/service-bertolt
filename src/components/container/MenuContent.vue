@@ -14,7 +14,7 @@
         >
           <img
             class="w-32 h-32 rounded-full"
-            src="../../assets/main/image.png"
+            :src="user.image.fullPath"
             alt=""
           >
         </div>
@@ -24,7 +24,7 @@
           <p
             class="text-lg font-medium line-clamp-1"
           >
-            Andréia Santos
+            {{ user.name }}
           </p>
           <small>
             Administrador
@@ -62,7 +62,7 @@
         <div>
           <router-link
             class="flex items-center space-x-2 font-medium"
-            to="main"
+            to="contacts"
           >
             <span class="text-xl icon-phone_in_talk"></span>
             <p>
@@ -73,7 +73,7 @@
         <div>
           <router-link
             class="flex items-center space-x-2 font-medium"
-            to="main"
+            to="contactUs"
           >
             <span class="text-xl icon-outgoing_mail"></span>
             <p>
@@ -105,3 +105,16 @@
     </div>
   </div>
 </template>
+
+<script>
+
+export default {
+  name: 'TopBar',
+
+  data () {
+    return {
+      user: { ...this.$store.state.user }
+    }
+  }
+}
+</script>

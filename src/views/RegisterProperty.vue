@@ -2,9 +2,11 @@
   <div
     class="flex w-full space-x-6"
   >
-    <SavePropertyForm />
+    <SavePropertyForm
+      class="w-4/6 xl:w-9/12"
+    />
     <PropertyList
-      class="w-2/5 mt-11"
+      class="flex flex-1 mt-11"
     />
   </div>
 </template>

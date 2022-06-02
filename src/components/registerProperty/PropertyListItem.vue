@@ -2,13 +2,17 @@
   <div
     class="flex w-full py-2 space-x-2 text-bertolt-text"
   >
-    <img
-      :src="property.pictures[0].fullPath"
-      class="w-20 h-20 rounded-md"
-      alt=""
-    >
     <div
-      class="w-full"
+      class="w-20 h-20"
+    >
+      <img
+        :src="property.pictures[0].fullPath"
+        class="object-cover w-20 h-20 rounded-md"
+        alt=""
+      >
+    </div>
+    <div
+      class="flex-1"
     >
       <p
         class="line-clamp-1"

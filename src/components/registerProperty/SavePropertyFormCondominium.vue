@@ -73,7 +73,7 @@
         Instalações do condomínio
       </p>
       <div
-        class="flex items-center space-x-4"
+        class="flex items-end space-x-4"
       >
         <label
           for="new-facility-title"
@@ -116,12 +116,28 @@
             </button>
           </div>
         </div>
+        <button
+          class="p-3 rounded-full bg-bertolt-primary h-min disabled:opacity-75"
+          :disabled="!newFacility.title || !newFacility.icon"
+          @click="addNewFacility()"
+        >
+          <div
+            class="flex space-x-2 text-sm font-medium text-white"
+          >
+            <p>
+              Adicionar
+            </p>
+            <span>
+              +
+            </span>
+          </div>
+        </button>
         <div
           v-if="showMenuListIcons"
           class="relative"
         >
           <div
-            class="absolute mt-2 overflow-auto bg-white rounded-md shadow-lg -right-40 w-96 ring-1 ring-black ring-opacity-5 h-80 -top-96"
+            class="absolute mt-2 overflow-auto bg-white rounded-md shadow-lg -right-10 w-96 ring-1 ring-black ring-opacity-5 h-80 -top-96"
           >
             <div
               class="flex flex-wrap gap-1 py-1"
@@ -138,26 +154,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="ml-20"
-        >
-          <button
-            class="p-2 rounded-full bg-bertolt-primary h-min disabled:opacity-75"
-            :disabled="!newFacility.title || !newFacility.icon"
-            @click="addNewFacility()"
-          >
-            <div
-              class="flex space-x-2 text-sm font-medium text-white"
-            >
-              <p>
-                Adicionar
-              </p>
-              <span>
-                +
-              </span>
-            </div>
-          </button>
         </div>
       </div>
       <div

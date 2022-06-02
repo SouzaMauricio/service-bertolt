@@ -17,6 +17,7 @@
 <script>
 
 import PropertyListItem from './PropertyListItem'
+import { getProperties } from '../../gateway/armin/services/properties'
 
 export default {
   name: 'PropertyList',
@@ -27,26 +28,19 @@ export default {
 
   data () {
     return {
-      propertiesList: [
-        {
-          pictures: [{
-            fullPath: 'https://picsum.photos/300/300'
-          }],
-          title: 'Acqua Park Barueri',
-          keywords: ['Barueri', 'São Paulo', 'Lançamento']
-        },
-        {
-          pictures: [{
-            fullPath: 'https://picsum.photos/300/300'
-          }],
-          title: 'Acqua Park Barueri',
-          keywords: ['Barueri', 'São Paulo', 'Lançamento']
-        }
-      ]
+      propertiesList: []
     }
   },
 
+  mounted () {
+    this.init()
+  },
+
   methods: {
+    async init () {
+      const properties = await getProperties()
+      this.propertiesList = properties.docs
+    }
   }
 }
 </script>

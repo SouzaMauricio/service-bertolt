@@ -4,6 +4,7 @@
   >
     <button
       class="items-center w-10 h-10 font-medium rounded-full text-bertolt-primary hover:bg-gray-200"
+      @click="logout"
     >
       <span class="text-xl icon-logout"></span>
     </button>
@@ -18,6 +19,13 @@ export default {
   data () {
     return {
       showMenu: false
+    }
+  },
+
+  methods: {
+    logout () {
+      this.$store.commit('clearAuthenticateUser')
+      this.$router.push('/login')
     }
   }
 }
