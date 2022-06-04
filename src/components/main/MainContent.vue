@@ -1,11 +1,11 @@
 <template>
   <div
-    class="w-full h-full space-y-10"
+    class="flex items-center justify-center w-full pt-40"
   >
     <p
-      class="h-96"
+      class="text-3xl opacity-75 text-bertolt-primary"
     >
-      MAIN
+      Bem-vindo(a), tenha um ótimo trabalho ;)
     </p>
   </div>
 </template>
@@ -17,5 +17,4 @@ export default {
 
   components: {}
 }
-
 </script>
