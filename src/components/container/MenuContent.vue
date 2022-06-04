@@ -36,6 +36,19 @@
         class="mt-5 space-y-4"
       >
         <div
+          id="main"
+        >
+          <router-link
+            class="flex items-center space-x-2 font-medium"
+            to="main"
+          >
+            <span class="text-xl icon-done"></span>
+            <p>
+              Tela inicial
+            </p>
+          </router-link>
+        </div>
+        <div
           id="registers"
         >
           <router-link
