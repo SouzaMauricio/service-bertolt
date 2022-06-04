@@ -9,6 +9,16 @@ const arminAxios = axios.create({
   timeout: 1000
 })
 
+arminAxios.interceptors.response.use(function (response) {
+  return response
+}, function (error) {
+  if (error?.response?.status === 401) {
+    store.commit('clearAuthenticateUser')
+    window.location.reload()
+  }
+  return Promise.reject(error)
+})
+
 export {
   arminAxios
 }
