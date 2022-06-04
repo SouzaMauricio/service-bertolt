@@ -121,11 +121,13 @@ export default {
       try {
         const user = await signIn(this.user.email, this.user.password)
         this.$store.commit('setAuthenticateUser', user)
+        this.$store.commit('setExpiryDate')
         this.$router.push('/main')
       } catch (error) {
         if (error?.response?.status === 404) {
           this.message = 'Usuário não encontrado'
         }
+        this.message = 'Erro interno, tente novamente.'
       }
     }
   }
