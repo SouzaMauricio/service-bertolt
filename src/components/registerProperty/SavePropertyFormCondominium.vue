@@ -146,7 +146,7 @@
               <div
                 v-for="(icon, index) in listIcons"
                 :key="index"
-                class="p-1 rounded-full cursor-pointer hover:bg-gray-100"
+                class="flex items-center justify-center p-1 rounded-full cursor-pointer hover:bg-gray-100"
                 @click="changeNewFacilityIcon(icon)"
                 :class="newFacility.icon === icon ? 'bg-bertolt-primary text-white hover:bg-bertolt-primary' : 'text-bertolt-primary h-7 w-7'"
               >

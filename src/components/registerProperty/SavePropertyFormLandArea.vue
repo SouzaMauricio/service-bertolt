@@ -14,6 +14,7 @@
           class="text-sm font-medium"
         >
           Área total da propriedade
+          <small>(m²)</small>
         </p>
       </div>
       <input

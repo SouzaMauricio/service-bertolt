@@ -14,6 +14,7 @@
           class="text-sm font-medium"
         >
           Área do imóvel
+          <small>(m²)</small>
         </p>
       </div>
       <input

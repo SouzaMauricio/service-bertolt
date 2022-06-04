@@ -62,7 +62,7 @@ export default {
   props: {
     show: {
       require: false,
-      type: String
+      type: Boolean
     }
   },
 

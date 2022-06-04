@@ -29,6 +29,7 @@
       >
         <button
           class="flex items-center p-1 rounded-full hover:bg-gray-200"
+          @click="edit"
         >
           <span
             class="text-xl icon-create text-bertolt-text"
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'PropertyListItem',
 
@@ -63,6 +65,9 @@ export default {
   },
 
   methods: {
+    edit () {
+      this.emitter.emit('edit-property', this.property.cod)
+    }
   }
 }
 </script>

@@ -60,6 +60,7 @@
           class="text-sm font-medium text-bertolt-primary"
         >
           Suítes
+          <small>(Opicional)</small>
         </p>
         <input
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
@@ -77,6 +78,7 @@
           class="text-sm font-medium text-bertolt-primary"
         >
           Cozinhas
+          <small>(Opicional)</small>
         </p>
         <input
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
@@ -98,6 +100,7 @@
           class="text-sm font-medium text-bertolt-primary"
         >
           Vagas
+          <small>(Opicional)</small>
         </p>
         <input
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
@@ -115,6 +118,7 @@
           class="text-sm font-medium text-bertolt-primary"
         >
           Salas
+          <small>(Opicional)</small>
         </p>
         <input
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
@@ -132,6 +136,7 @@
           class="text-sm font-medium text-bertolt-primary"
         >
           Varanda
+          <small>(Opicional)</small>
         </p>
         <input
           class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
