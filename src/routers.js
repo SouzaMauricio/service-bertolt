@@ -3,6 +3,7 @@ import MainScreen from './views/MainScreen'
 import LoginScreen from './views/LoginScreen'
 import DefaultScreen from './views/DefaultScreen'
 import ContactsScreen from './views/ContactsScreen'
+import ContactUsScreen from './views/ContactUsScreen'
 import RegisterProperty from './views/RegisterProperty'
 import DefaultContainer from './containers/DefaultContainer'
 import { store } from './store/store'
@@ -37,8 +38,14 @@ const routes = [
       },
       {
         path: '/contacts',
-        name: 'Contacts',
+        name: 'ContactsList',
         component: ContactsScreen,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/contactUs',
+        name: 'ContactUsList',
+        component: ContactUsScreen,
         meta: { requiresAuth: true }
       },
       {
@@ -66,10 +73,11 @@ router.beforeEach((to, from, next) => {
     return
   }
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters.isAuthenticated) {
+    if (store.getters.isAuthenticated && !store.getters.isExpired) {
       next();
       return;
     }
+    store.commit('clearAuthenticateUser')
     next("/login");
   } else {
     next();
