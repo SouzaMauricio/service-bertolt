@@ -37,9 +37,15 @@
         </button>
         <button
           class="flex items-center p-1 rounded-full hover:bg-gray-200"
+          @click="updateShowProperty()"
         >
           <span
+            v-if="property.show"
             class="text-xl icon-eye text-bertolt-text"
+          ></span>
+          <span
+            v-else
+            class="text-xl icon-eye-blocked text-bertolt-text"
           ></span>
         </button>
       </div>
@@ -67,6 +73,10 @@ export default {
   methods: {
     edit () {
       this.emitter.emit('edit-property', this.property.cod)
+    },
+
+    updateShowProperty () {
+      this.$emit('update-show-property', { cod: this.property.cod, show: !this.property.show })
     }
   }
 }
