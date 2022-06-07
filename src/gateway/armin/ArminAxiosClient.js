@@ -9,6 +9,9 @@ const arminAxios = axios.create({
   timeout: 1000
 })
 
+
+arminAxios.defaults.timeout = 10000 * 3
+
 arminAxios.interceptors.response.use(function (response) {
   return response
 }, function (error) {

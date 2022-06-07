@@ -2,9 +2,7 @@ import { arminAxios } from '../ArminAxiosClient'
 
 const resource = 'uploads'
 
-const create = async (body) => {
-  arminAxios.defaults.timeout = 10000 * 2
-
+const createPicture = async (body) => {
   const response = await arminAxios.post(
     resource,
     body,
@@ -14,6 +12,13 @@ const create = async (body) => {
   return response.data
 }
 
+const removePicture = async (uploadId, propertyId) => {
+  arminAxios.defaults.timeout = 10000 * 5
+  const response = await arminAxios.delete(`${resource}/${uploadId}?propertyId=${propertyId}`)
+  return response.data
+}
+
 export {
-  create
+  createPicture,
+  removePicture
 }

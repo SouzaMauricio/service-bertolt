@@ -12,13 +12,19 @@ const create = async (body) => {
   return response.data
 }
 
+const update = async (body, propertyCod) => {
+  const response = await arminAxios.patch(`${resource}/${propertyCod}`, body)
+  return response.data
+}
+
 const getOneByCod = async (propertyCod, params) => {
   const response = await arminAxios.get(`${resource}/${propertyCod}?${params}`)
   return response.data
 }
 
 export {
+  create,
   getOneByCod,
   getProperties,
-  create
+  update
 }
