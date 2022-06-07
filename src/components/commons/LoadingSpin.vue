@@ -3,7 +3,7 @@
     class="flex items-center justify-center w-full space-x-4"
     :class="py"
   >
-    <span class="w-5 h-5 mr-1 -ml-1 text-2xl text-bertolt-text animate-spin icon-star_rate"></span>
+    <span class="w-6 h-6 mr-1 -ml-1 text-2xl text-bertolt-text animate-spin icon-spinner10"></span>
     <span
       v-if="text"
       class="text-bertolt-text"
