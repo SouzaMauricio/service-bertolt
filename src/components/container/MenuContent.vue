@@ -64,7 +64,7 @@
         <div>
           <router-link
             class="flex items-center space-x-2 font-medium"
-            to="main"
+            to="finishRelease"
           >
             <span class="text-xl icon-upgrade"></span>
             <p>
@@ -97,7 +97,7 @@
         <div>
           <router-link
             class="flex items-center space-x-2 font-medium"
-            to="main"
+            to="dashboards"
           >
             <span class="text-xl icon-trending_up"></span>
             <p>
