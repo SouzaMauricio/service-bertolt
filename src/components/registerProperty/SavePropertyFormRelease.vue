@@ -223,6 +223,23 @@
           </button>
         </div>
         <label
+          for="release-area"
+          class="space-y-2"
+        >
+          <p
+            class="text-sm font-medium text-bertolt-primary"
+          >
+            Área <small>(m²)</small>
+          </p>
+          <input
+            class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
+            type="number"
+            v-model="newUnit.area"
+            name="release-area"
+            id="release-area"
+          >
+        </label>
+        <label
           for="release-bedroom"
           class="space-y-2"
         >
@@ -233,7 +250,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.bedroom"
             name="release-bedroom"
             id="release-bedroom"
@@ -250,7 +267,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.bathrooms"
             name="release-bathrooms"
             id="release-bathrooms"
@@ -267,7 +284,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.suites"
             name="release-suites"
             id="release-suites"
@@ -284,7 +301,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.kitchen"
             name="release-kitchen"
             id="release-kitchen"
@@ -301,7 +318,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.garages"
             name="release-garages"
             id="release-garages"
@@ -318,7 +335,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.livingroom"
             name="release-livingroom"
             id="release-livingroom"
@@ -335,7 +352,7 @@
           </p>
           <input
             class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
+            type="number"
             v-model="newUnit.balcony"
             name="release-balcony"
             id="release-balcony"
@@ -366,7 +383,6 @@
 </template>
 
 <script>
-// import * as UploadsGateway from '../../gateway/armin/services/uploads'
 
 export default {
   name: 'SavePropertyFormRelease',
@@ -400,6 +416,7 @@ export default {
         }
       ],
       newUnit: {
+        area: null,
         title: '',
         bedroom: '',
         balcony: '',
@@ -407,7 +424,8 @@ export default {
         garages: '',
         suites: '',
         bathrooms: '',
-        image: new Image()
+        image: new Image(),
+        imageName: ''
       }
     }
   },

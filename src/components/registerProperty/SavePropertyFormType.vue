@@ -17,10 +17,11 @@
         </p>
       </div>
       <select
-        class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
+        class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary disabled:opacity-70 disabled:bg-gray-200"
         v-model="localType"
         name="type"
         id="type"
+        :disabled="action !== 'create'"
         @change="updateProp()"
       >
         <option value="" selected disabled >Selecione</option>
@@ -42,6 +43,11 @@ export default {
   name: 'SavePropertyFormType',
 
   props: {
+    action: {
+      type: String,
+      require: false,
+      default: 'create'
+    },
     type: {
       require: false,
       type: String

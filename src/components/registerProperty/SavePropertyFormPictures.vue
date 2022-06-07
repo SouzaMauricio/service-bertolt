@@ -64,7 +64,8 @@ export default {
 
   data () {
     return {
-      localPictures: this.pictures
+      localPictures: this.pictures,
+      removedPictures: []
     }
   },
 
@@ -74,7 +75,8 @@ export default {
     },
 
     removePicture (index) {
-      this.localPictures.splice(index, 1)
+      this.removedPictures.push(this.localPictures.splice(index, 1)[0])
+      this.$emit('remove-picture', this.removedPictures)
     },
 
     onFileChange(e) {
@@ -92,7 +94,8 @@ export default {
         this.localPictures.push({
           file: file,
           image: e.target.result,
-          fileName: file.name
+          fileName: file.name,
+          toUpload: true
         })
       };
       reader.readAsDataURL(file)
