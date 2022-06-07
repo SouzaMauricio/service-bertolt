@@ -5,7 +5,7 @@
     <p
       class="text-xl font-medium"
     >
-      Interesses
+      Fale Conosco
     </p>
 
     <div
@@ -25,27 +25,12 @@
 
         <v-select
           class="w-full bg-white text-bertolt-primary"
-          :options="propertiesList"
-          label="title"
-          placeholder="Selecione uma propriedade"
-          v-model="search.property"
-          :reduce="(option) => option._id"
-        >
-          <template v-slot:option="option">
-            <div
-              class="flex items-center justify-start space-x-2"
-            >
-              <img
-                class="object-cover w-10 h-10 rounded-full"
-                :src="option.pictures[0].fullPath"
-                alt=""
-              >
-              <p>
-                {{ option.title }}
-              </p>
-            </div>
-          </template>
-        </v-select>
+          :options="typeList"
+          label="label"
+          placeholder="Selecione o tipo de contato"
+          v-model="search.type"
+          :reduce="(option) => option.value"
+        />
         <button
           class="flex items-center justify-between px-2 py-1 space-x-2 text-white rounded-md bg-bertolt-primary"
           @click="doSearch()"
@@ -79,12 +64,11 @@
             <th
               class="p-2"
             >
-              Propriedade
             </th>
             <th
               class="p-2"
             >
-              Interessado
+              Nome
             </th>
             <th
               class="p-2"
@@ -104,7 +88,17 @@
             <th
               class="p-2"
             >
-              Entrou em contato em
+              Contato em
+            </th>
+            <th
+              class="p-2"
+            >
+              Motivo do contato
+            </th>
+            <th
+              class="p-2"
+            >
+              Mensagem
             </th>
             <th
               class="p-2"
@@ -117,7 +111,7 @@
           class="divide-y"
         >
           <tr
-            v-for="(contact, index) in contactsList"
+            v-for="(contact, index) in contactUsList"
             :key="index"
           >
             <td
@@ -126,14 +120,14 @@
               <div
                 class="flex items-center space-x-2"
               >
-                <img
-                  :src="contact.property.pictures[0].fullPath"
-                  class="object-cover w-16 h-16 rounded-full"
-                  alt=""
+                <div
+                  class="flex items-center justify-center w-10 h-10 text-white bg-gray-500 rounded-full"
                 >
-                <p>
-                  {{ contact.property.title }}
-                </p>
+                  <span
+                    class="p-2 text-2xl"
+                    :class="getIconByType(contact.type)"
+                  ></span>
+                </div>
               </div>
             </td>
             <td
@@ -164,6 +158,36 @@
             <td
               class="p-2"
             >
+              {{ getLabelCOntactType(contact.type) }}
+            </td>
+            <td
+              class="w-5/12 p-2"
+            >
+              <div
+                class="flex items-end justify-between p-1 space-x-2 bg-gray-100 border rounded-md"
+              >
+                <div
+                  :ref="contact._id"
+                  class="line-clamp-2"
+                >
+                  <p>
+                    {{ contact.description }}
+                  </p>
+                </div>
+                <button
+                  class="w-5 h-5 rounded-full hover:bg-gray-300"
+                  @click="showOrHideText(contact._id)"
+                >
+                  <span
+                    :ref="`icon-${contact._id}`"
+                    class="icon-keyboard_arrow_down"
+                  ></span>
+                </button>
+              </div>
+            </td>
+            <td
+              class="p-2"
+            >
               <div
                 class="flex items-center"
               >
@@ -172,7 +196,7 @@
                   title="Visualizar propriedade"
                   @click="openProperty(contact.property.cod)"
                 >
-                  <span class="icon-house"></span>
+                  <span class="icon-eye"></span>
                 </button>
               </div>
             </td>
@@ -180,7 +204,7 @@
         </tbody>
       </table>
       <div
-        v-if="!loading && !contactsList[0]"
+        v-if="!loading && !contactUsList[0]"
         class="flex items-center justify-center p-2"
       >
         <p
@@ -206,13 +230,12 @@
 </template>
 
 <script>
-import { getContacts } from '../../gateway/armin/services/contacts'
-import { getProperties } from '../../gateway/armin/services/properties'
+import { getContactUs } from '../../gateway/armin/services/contactUs'
 import SnackBar from '../commons/SnackBar'
 import LoadingSpin from '../commons/LoadingSpin'
 
 export default {
-  name: 'ContactsList',
+  name: 'ContactUsList',
 
   components: {
     SnackBar,
@@ -221,18 +244,50 @@ export default {
 
   data () {
     return {
-      contactsList: [],
-      propertiesList: [],
+      contactUsList: [],
+      typeList: [
+        {
+          label: 'Vender minha proprierdade',
+          value: 'SELL_MY_PROPERTY'
+        },
+        {
+          label: 'Alugar minha proprierdade',
+          value: 'RENT_MY_PROPERTY'
+        },
+        {
+          label: 'Parcerias',
+          value: 'PARTNERSHIPS'
+        },
+        {
+          label: 'Política de privacidade',
+          value: 'PRIVACY_POLICY'
+        },
+        {
+          label: 'LGPD',
+          value: 'LGPD'
+        },
+        {
+          label: 'Outros',
+          value: 'OTHERS'
+        }
+      ],
       search: {
-        property: '',
-        fullName: ''
+        fullName: '',
+        type: ''
       },
       loading: false,
-      paramsGeneral: '&populate=property',
       snackBar: {
         show: false,
         message: ''
       },
+      iconsByType: {
+        'SELL_MY_PROPERTY': 'icon-attach_money',
+        'RENT_MY_PROPERTY': 'icon-attach_money',
+        'PARTNERSHIPS': 'icon-attach_money',
+        'PRIVACY_POLICY': 'icon-security',
+        'LGPD': 'icon-security',
+        'OTHERS': 'icon-attach_money',
+      }
     }
   },
 
@@ -244,9 +299,8 @@ export default {
     async init () {
       try {
         this.loading = true
-        const contacts = await getContacts(this.paramsGeneral)
-        this.contactsList = contacts.docs
-        this.setPropertiesList()
+        const contacts = await getContactUs()
+        this.contactUsList = contacts.docs
       } catch (error) {
         this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro inesperado, tente novamente'
         this.snackBar.show = true
@@ -254,23 +308,17 @@ export default {
       } finally {
         this.loading = false
       }
-    },
-    
-    async setPropertiesList () {
-      const properties = await getProperties('select=_id,pictures,title')
-      this.propertiesList = properties.docs
     },
 
     async doSearch () {
       try {
-        this.contactsList = []
+        this.contactUsList = []
         this.loading = true
         let params = ''
-        params += this.search.property ? `&property=${this.search.property}` : ''
+        params += this.search.type ? `&type=${this.search.type}` : ''
         params += this.search.fullName ? `&fullName=${this.search.fullName}` : ''
-        params += this.paramsGeneral
-        const contacts = await getContacts(params)
-        this.contactsList = contacts.docs
+        const contacts = await getContactUs(params)
+        this.contactUsList = contacts.docs
       } catch (error) {
         this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro inesperado, tente novamente'
         this.snackBar.show = true
@@ -280,9 +328,18 @@ export default {
       }
     },
 
-    openProperty (propertyCod) {
-      const url = process.env.VUE_APP_ANNIE_BASE_URL + `/property/${propertyCod}`
-       window.open(url, '_blank').focus()
+    getIconByType (type) {
+      return this.iconsByType[type]
+    },
+
+    showOrHideText (ref) {
+      const haveLineClamp = !!this.$refs[ref][0].classList.value
+      this.$refs[ref][0].classList.value = !haveLineClamp ? 'line-clamp-2' : ''
+      this.$refs[`icon-${ref}`][0].classList.value = !haveLineClamp ? 'icon-keyboard_arrow_down' : 'icon-keyboard_arrow_up'
+    },
+
+    getLabelCOntactType (type) {
+      return this.typeList.find(typeContact => typeContact.value === type).label
     },
 
     getFormattedDate (date) {
