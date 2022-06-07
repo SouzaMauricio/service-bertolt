@@ -12,7 +12,7 @@ const store = createStore({
     return {
       user: {},
       token: null,
-      expiryDate: null
+      expiryDate: ''
     }
   },
   mutations: {
@@ -21,12 +21,13 @@ const store = createStore({
       state.user = { ...userAuthenticate.user }
     },
     clearAuthenticateUser (state) {
+      state.expiryDate = null
       state.token = null
       state.user = {}
     },
     setExpiryDate: (state) => {
       const date = new Date()
-      date.setHours(date.getHours + 8)
+      date.setHours(date.getHours() + 5)
       state.expiryDate = date
     }
   },
