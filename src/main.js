@@ -5,6 +5,8 @@ import './tailwind.css'
 import './assets/scss/modules/_icons.scss'
 import { store } from './store/store'
 import mitt from 'mitt'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 const emitter = mitt()
 
@@ -13,4 +15,5 @@ const app = createApp(App)
 app.config.globalProperties.emitter = emitter
 app.use(store)
 app.use(routers)
+app.component('v-select', vSelect)
 app.mount('#app')
