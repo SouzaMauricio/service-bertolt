@@ -78,9 +78,9 @@ router.beforeEach((to, from, next) => {
       return;
     }
     store.commit('clearAuthenticateUser')
-    next("/login");
+    next("/login")
   } else {
-    next();
+    next()
   }
 })
 

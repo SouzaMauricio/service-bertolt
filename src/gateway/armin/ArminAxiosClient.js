@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { store } from '@/store/store'
 
+const token = store.getters.token
+
 const arminAxios = axios.create({
   baseURL: process.env.VUE_APP_ARMIN_BASE_URL,
   headers: {
-    'x-access-token': store.getters.token
+    'x-access-token': token
   },
   timeout: 1000
 })

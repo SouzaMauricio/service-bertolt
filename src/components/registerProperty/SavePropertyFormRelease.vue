@@ -74,7 +74,7 @@
         <div>
           <img
             class="object-cover w-24 h-24 rounded-md"
-            :src="unit.image"
+            :src="unit.imageData"
             alt=""
           >
         </div>
@@ -88,7 +88,7 @@
               class="flex justify-between"
             >
               <p>
-                Titulo: {{ unit.title }}
+                Unidade: {{ unit.area }}m²
               </p>
               <button
                 class="flex items-center p-1 rounded-full hover:bg-gray-200"
@@ -117,6 +117,7 @@
                 </p>
               </div>
               <div
+                v-if="unit.suites"
                 class="flex items-center space-x-2"
               >
                 <span class="text-xl icon-bathtub "></span>
@@ -125,14 +126,16 @@
                 </p>
               </div>
               <div
+                v-if="unit.garages"
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-restaurant"></span>
+                <span class="text-xl icon-drive_eta"></span>
                 <p>
-                  Cozinhas: {{ unit.kitchen }}
+                  Vagas: {{ unit.garages }}
                 </p>
               </div>
               <div
+                v-if="unit.livingroom"
                 class="flex items-center space-x-2"
               >
                 <span class="text-xl icon-weekend"></span>
@@ -141,11 +144,12 @@
                 </p>
               </div>
               <div
+                v-if="unit.balcony"
                 class="flex items-center space-x-2"
               >
                 <span class="text-xl icon-drive_eta"></span>
                 <p>
-                  Vagas: {{ unit.garages }}
+                  Varandas: {{ unit.balcony }}
                 </p>
               </div>
             </div>
@@ -161,28 +165,6 @@
       >
         Adicionar nova unidade
       </p>
-
-      <div
-        class="flex items-end space-x-2"
-      >
-        <label
-          for="release-title"
-          class="w-full space-y-2"
-        >
-          <p
-            class="text-sm font-medium text-bertolt-primary"
-          >
-            Título
-          </p>
-          <input
-            class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="text"
-            v-model="newUnit.title"
-            name="release-title"
-            id="release-title"
-          >
-        </label>
-      </div>
       <div
         class="flex items-end space-x-2"
       >
@@ -212,7 +194,7 @@
         >
           <img
             class="object-cover w-40 h-16 rounded-md"
-            :src="newUnit.image"
+            :src="newUnit.imageData"
             alt=""
           >
           <button
@@ -291,23 +273,6 @@
           >
         </label>
         <label
-          for="release-kitchen"
-          class="space-y-2"
-        >
-          <p
-            class="text-sm font-medium text-bertolt-primary"
-          >
-            Cozinhas
-          </p>
-          <input
-            class="w-full border border-gray-300 rounded-md focus:ring-0 focus:border-bertolt-primary"
-            type="number"
-            v-model="newUnit.kitchen"
-            name="release-kitchen"
-            id="release-kitchen"
-          >
-        </label>
-        <label
           for="release-garages"
           class="space-y-2"
         >
@@ -363,7 +328,7 @@
       <div>
         <button
           class="p-2 rounded-full bg-bertolt-primary disabled:opacity-75"
-          :disabled="!newUnit.imageName || !newUnit.balcony || !newUnit.livingroom || !newUnit.garages || !newUnit.kitchen || !newUnit.suites || !newUnit.bathrooms || !newUnit.bedroom"
+          :disabled="!newUnit.imageName || !newUnit.bathrooms || !newUnit.bedroom || !newUnit.area"
           @click="addNewUnit()"
         >
           <div
@@ -417,31 +382,33 @@ export default {
       ],
       newUnit: {
         area: null,
-        title: '',
         bedroom: '',
         balcony: '',
         livingroom: '',
         garages: '',
         suites: '',
         bathrooms: '',
-        image: new Image(),
-        imageName: ''
+        imageData: new Image(),
+        imageName: '',
+        imageToUpload: true
       }
     }
   },
 
   methods: {
     addNewUnit () {
-      this.localRelease.units.push({ ...this.newUnit })
-      this.newUnit.title = ''
+      const tempId = Math.floor(Math.random() * 100 * 100)
+      this.localRelease.units.push({ ...this.newUnit, tempId })
+      this.newUnit.area = ''
       this.newUnit.bedroom = ''
       this.newUnit.balcony = ''
       this.newUnit.livingroom = ''
       this.newUnit.garages = ''
       this.newUnit.suites = ''
       this.newUnit.bathrooms = ''
-      this.newUnit.image = new Image()
+      this.newUnit.imageData = new Image()
       this.newUnit.imageName = ''
+      this.newUnit.imageToUpload = true
     },
 
     removeUnit (index) {
@@ -449,19 +416,20 @@ export default {
     },
 
     onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
+      var files = e.target.files || e.dataTransfer.files
       if (!files.length)
-        return;
-      this.createImage(files[0], e);
+        return
+      this.createImage(files[0])
     },
 
-    createImage(file, e) {
-      var reader = new FileReader();
+    createImage(file) {
+      const reader = new FileReader()
       reader.onload = (e) => {
-        this.newUnit.image = e.target.result;
-      };
+        this.newUnit.imageData = e.target.result
+        this.newUnit.file = file
+        this.newUnit.imageName = file.name
+      }
       reader.readAsDataURL(file)
-      this.newUnit.imageName = e.target.files[0].name;
     }
   }
 }

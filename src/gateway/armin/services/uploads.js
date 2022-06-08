@@ -3,8 +3,20 @@ import { arminAxios } from '../ArminAxiosClient'
 const resource = 'uploads'
 
 const createPicture = async (body) => {
+  const resourcePath = 'propertyPictures'
   const response = await arminAxios.post(
-    resource,
+    `${resource}/${resourcePath}`,
+    body,
+    {
+      'Accept': 'application/json'
+    })
+  return response.data
+}
+
+const createUnitImage = async (body) => {
+  const resourcePath = 'unitImage'
+  const response = await arminAxios.post(
+    `${resource}/${resourcePath}`,
     body,
     {
       'Accept': 'application/json'
@@ -20,5 +32,6 @@ const removePicture = async (uploadId, propertyId) => {
 
 export {
   createPicture,
+  createUnitImage,
   removePicture
 }

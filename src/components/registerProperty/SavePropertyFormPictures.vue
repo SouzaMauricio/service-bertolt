@@ -70,10 +70,6 @@ export default {
   },
 
   methods: {
-    updateProp() {
-      this.$emit('update-prop', this.localPictures)
-    },
-
     removePicture (index) {
       this.removedPictures.push(this.localPictures.splice(index, 1)[0])
       this.$emit('remove-picture', this.removedPictures)
@@ -89,7 +85,7 @@ export default {
     },
 
     createImage(file) {
-      var reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
         this.localPictures.push({
           file: file,

@@ -81,10 +81,19 @@
         </div>
 
         <button
-          class="block w-full px-5 py-3 text-sm font-medium text-white rounded-lg bg-bertolt-primary"
+          class="flex items-center justify-center w-full h-10 px-5 py-1 text-sm font-medium text-white rounded-lg bg-bertolt-primary hover:opacity-90 disabled:opacity-75"
           @click.prevent="signIn()"
         >
-          Entrar
+          <span
+            v-if="loading"
+            class="w-6 h-6 text-2xl text-white animate-spin icon-spinner10"
+          >
+          </span>
+          <span
+            v-else
+          >
+            Entrar
+          </span>
         </button>
         <div
           class="flex items-center justify-center w-full "
@@ -112,22 +121,26 @@ export default {
         email: '',
         password: ''
       },
-      message: ''
+      message: '',
+      loading: false
     }
   },
 
   methods: {
     async signIn () {
       try {
+        this.loading = true
         const user = await signIn(this.user.email, this.user.password)
         this.$store.commit('setAuthenticateUser', user)
         this.$store.commit('setExpiryDate')
-        this.$router.push('/main')
+        window.location.reload()
       } catch (error) {
         if (error?.response?.status === 404) {
           this.message = 'Usuário não encontrado'
         }
         this.message = 'Erro interno, tente novamente.'
+      } finally {
+        this.loading = false
       }
     }
   }

@@ -301,9 +301,9 @@ export default {
 
     async createOrUpdateProperty () {
       const propertyCleaned = this.clearPropertyByType(JSON.parse(JSON.stringify({ ...this.property })), this.property.type, this.action)
-      const isValidToSave = this.checkFields(propertyCleaned, propertyCleaned.type)
+      const isValidToSave = this.checkFields(propertyCleaned, this.property.type)
       if (!isValidToSave) return
-      this.formatPropertyToSave(propertyCleaned, propertyCleaned.type)
+      this.formatPropertyToSave(propertyCleaned)
       if (this.action === 'create') await this.createProperty(propertyCleaned)
       if (this.action === 'update') await this.updateProperty(propertyCleaned)
     },
@@ -314,10 +314,12 @@ export default {
         this.snackBar.show = true
         return false
       }
+      if (type !== 'RELEASE' && !property.propertyArea) {
+        return this.invalidProperty('Preencha o a área da propriedade!')
+      }
       const requiredGeneralFields = [
         'title',
         'description',
-        'propertyArea',
         'keywords'
       ]
       for (const field of requiredGeneralFields) {
@@ -332,10 +334,10 @@ export default {
         !property.localization.state || 
         !property.localization.zipcode
       ) return this.invalidProperty('Preencha o endereço corretamente!')
-      if (
+      if (type !== 'RELEASE' && (
         !property.environments.bedroom || 
         !property.environments.bathrooms
-      ) return this.invalidProperty('Preencha os ambientes corretamente!')
+      )) return this.invalidProperty('Preencha os ambientes corretamente!')
       if (type === 'APARTMENT' || type === 'RELEASE' || type === 'HOUSE_IN_CONDOMINIUM') {
         if (
           !property.condominium.name || 
@@ -359,42 +361,30 @@ export default {
       return false
     },
 
-    formatPropertyToSave (property, type) {
+    formatPropertyToSave (property) {
       property.keywords = property.keywords.toLowerCase().split(',')
       for (let environment in property.environments) {
         property.environments[environment] = property.environments[environment].split(',')
       }
-
-      if (type === 'RELEASE') {
-        for (const unit of property.release.units) {
-          for (let prop in unit) {
-            if (!Array.isArray(unit[prop])) continue
-            unit[prop] = unit[prop].split(',')
-          }
-        }
-      }
     },
 
     async createProperty (property) {
-      let enableToClearForm = false
       try {
         this.loading = true
         const propertyCreated = await PropertyGateway.create(property)
-        enableToClearForm = true
         await this.savePictures(propertyCreated.id)
+        if (property.type === 'RELEASE') {
+          await this.saveUnitImages(propertyCreated.id)
+        }
+        this.clearForm()
         this.emitter.emit('reload-property-list')
       } catch (error) {
         this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro inesperado, tente novamente'
-        if (enableToClearForm) {
-          this.snackBar.message = 'Erro ao criar as imagens, selecione a propriedade e tente novamene.'
-        }
         this.snackBar.show = true
         console.error('Error: ', error)
       } finally {
         this.loading = false
       }
-      if (!enableToClearForm) return
-      this.clearForm()
     },
 
     async updateProperty (property) {
@@ -403,6 +393,11 @@ export default {
         const propertyUpdated = await PropertyGateway.update(property, this.propertyCod)
         await this.savePictures(propertyUpdated.id)
         await this.removePictures(propertyUpdated.id)
+        if (this.property.type === 'RELEASE') {
+          await this.saveUnitImages(propertyUpdated.id)
+        }
+        this.emitter.emit('reload-property-list')
+        this.clearForm()
       } catch (error) {
         this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro inesperado, tente novamente'
         this.snackBar.show = true
@@ -413,27 +408,63 @@ export default {
     },
 
     async savePictures (propertyId) {
-      const filteredPictures = this.pictures.filter(picture => picture.toUpload)
-      await Promise.all(
-        filteredPictures.map(picture => {
-          const form = new FormData()
-          form.append('image', picture.file)
-          form.append('fileName', picture.fileName)
-          form.append('fileType', picture.fileName.split('.').pop())
-          form.append('propertyId', propertyId)
-          return UploadGateway.createPicture(form)
-        })
-      )
+      try {
+        const filteredPictures = this.pictures.filter(picture => picture.toUpload)
+        await Promise.all(
+          filteredPictures.map(picture => {
+            const form = new FormData()
+            form.append('image', picture.file)
+            form.append('fileName', picture.fileName)
+            form.append('fileType', picture.fileName.split('.').pop())
+            form.append('propertyId', propertyId)
+            return UploadGateway.createPicture(form)
+          })
+        )
+      } catch (error) {
+        this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro ao criar as imagens, selecione a propriedade e tente novamene.'
+        console.error('Error: ', error)
+      }
+    },
+
+    async saveUnitImages (propertyId) {
+      const images = this.getUnitImages([ ...this.property.release.units ])
+      try {
+        await Promise.all(
+          images.map(image => {
+            const form = new FormData()
+            form.append('image', image.image)
+            form.append('fileName', image.fileName)
+            form.append('tempId', image.tempId)
+            form.append('fileType', image.fileName.split('.').pop())
+            form.append('propertyId', propertyId)
+            return UploadGateway.createUnitImage(form)
+          })
+        )
+      } catch (error) {
+        this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro ao criar as imagens, selecione a propriedade e tente novamene.'
+        console.error('Error: ', error)
+      }
     },
 
     async removePictures (propertyId) {
       this.removedPictures = JSON.parse(JSON.stringify(this.removedPictures))
       const filteredPictures = this.removedPictures.filter(picture => JSON.parse(!picture.toUpload))
-      console.log(filteredPictures)
       await Promise.all(
         filteredPictures.map(picture => UploadGateway.removePicture(picture.fileName, propertyId)
         )
       )
+    },
+
+    getUnitImages (units) {
+      const releaseUnitImages = units.map(unit => {
+        return {
+          image: unit.file,
+          fileName: unit.imageName,
+          tempId: unit.tempId,
+          imageToUpload: unit.imageToUpload
+        }
+      })
+      return releaseUnitImages.filter(image => image.imageToUpload)
     },
 
     clearPropertyByType (property, type, action) {
@@ -463,8 +494,15 @@ export default {
         delete property.price
         delete property.floor
         delete property.landArea
+        delete property.propertyArea
         delete property.views
-        delete property.toRent
+
+      property.release.units.forEach(unit => {
+        delete unit.imageData
+        delete unit.file
+        delete unit.fileName
+        delete unit.imageToUpload
+      })
         return property
       }
     },
@@ -494,10 +532,9 @@ export default {
       }
       if (type === 'RELEASE') {
         for (const unit of property.release.units) {
-          for (let prop in unit) {
-            if (!Array.isArray(unit[prop])) continue
-            unit[prop] = unit[prop].join(',')
-          }
+          unit.imageData = unit.image.fullPath
+          unit.imageName = unit.image.uploadId
+          unit.imageToUpload = false
         }
       }
       this.pictures = property.pictures.map(picture => ({
