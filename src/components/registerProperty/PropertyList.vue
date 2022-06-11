@@ -74,6 +74,7 @@ export default {
   methods: {
     async init () {
       try {
+        this.loading = true
         this.propertiesList = []
         const properties = await getProperties('select=_id,pictures,title,keywords,show,cod')
         this.propertiesList = properties.docs

@@ -144,6 +144,7 @@
           type="text"
           v-model="localLocalization.zipcode"
           name="zipcode"
+          v-mask="'#####-###'"
           id="zipcode"
         >
       </label>

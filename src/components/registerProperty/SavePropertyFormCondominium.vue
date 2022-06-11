@@ -30,7 +30,6 @@
           v-model="localCondominium.name"
           name="condominium-name"
           id="condominium-name"
-          @keyup="updateProp()"
         >
       </label>
       <label
@@ -222,10 +221,6 @@ export default {
   },
 
   methods: {
-    updateProp() {
-      this.$emit('update-prop', this.localCondominium)
-    },
-
     changeNewFacilityIcon (newIcon) {
       this.newFacility.icon = newIcon
       this.showMenuListIcons = false

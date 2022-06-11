@@ -366,6 +366,7 @@ export default {
       for (let environment in property.environments) {
         property.environments[environment] = property.environments[environment].split(',')
       }
+      property.localization.zipcode = property.localization.zipcode.replace(/\D/g,'')
     },
 
     async createProperty (property) {
