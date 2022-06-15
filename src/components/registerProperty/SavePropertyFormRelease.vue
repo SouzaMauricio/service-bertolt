@@ -147,7 +147,7 @@
                 v-if="unit.balcony"
                 class="flex items-center space-x-2"
               >
-                <span class="text-xl icon-drive_eta"></span>
+                <span class="text-xl icon-wb_twighlight"></span>
                 <p>
                   Varandas: {{ unit.balcony }}
                 </p>
