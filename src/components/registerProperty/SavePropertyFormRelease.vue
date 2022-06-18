@@ -74,7 +74,7 @@
         <div>
           <img
             class="object-cover w-24 h-24 rounded-md"
-            :src="unit.imageData"
+            :src="unit.imageData ? unit.imageData : require('../../assets/no_picture.jpg')"
             alt=""
           >
         </div>

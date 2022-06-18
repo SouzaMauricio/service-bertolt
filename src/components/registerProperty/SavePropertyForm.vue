@@ -533,8 +533,8 @@ export default {
       }
       if (type === 'RELEASE') {
         for (const unit of property.release.units) {
-          unit.imageData = unit.image.fullPath
-          unit.imageName = unit.image.uploadId
+          unit.imageData = unit.image ? unit.image.fullPath : require('../../assets/no_picture.jpg')
+          unit.imageName = unit.image ? unit.image.uploadId : ''
           unit.imageToUpload = false
         }
       }

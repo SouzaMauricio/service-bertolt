@@ -22,7 +22,7 @@
       >
         <img
           class="object-cover w-32 h-32 rounded-md"
-          :src="picture.image"
+          :src="picture.image ? picture.image : require('../../assets/no_picture.jpg')"
           alt=""
         >
         <button

@@ -76,7 +76,7 @@ export default {
       try {
         this.loading = true
         this.propertiesList = []
-        const properties = await getProperties('select=_id,pictures,title,keywords,show,cod')
+        const properties = await getProperties('select=_id,pictures,title,show,cod,type')
         this.propertiesList = properties.docs
       } catch (error) {
         this.snackBar.message = (error.response ? error.response.message : error.message) || 'Erro inesperado, tente novamente'
