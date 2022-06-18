@@ -282,7 +282,7 @@ export default {
 
     openProperty (propertyCod) {
       const url = process.env.VUE_APP_ANNIE_BASE_URL + `/property/${propertyCod}`
-       window.open(url, '_blank').focus()
+      window.open(url, '_blank').focus()
     },
 
     getFormattedDate (date) {
