@@ -340,8 +340,7 @@ export default {
       )) return this.invalidProperty('Preencha os ambientes corretamente!')
       if (type === 'APARTMENT' || type === 'RELEASE' || type === 'HOUSE_IN_CONDOMINIUM') {
         if (
-          !property.condominium.name || 
-          !property.condominium.price
+          !property.condominium.name
         ) return this.invalidProperty('Preencha o condomínio corretamente!')
       }
       if (type === 'RELEASE') {
@@ -497,6 +496,7 @@ export default {
         delete property.landArea
         delete property.propertyArea
         delete property.views
+        delete property.condominium.price
 
       property.release.units.forEach(unit => {
         delete unit.imageData
