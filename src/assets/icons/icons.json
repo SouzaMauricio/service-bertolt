@@ -285,6 +285,10 @@
     "text-xl icon-facebook2",
     "text-xl icon-instagram",
     "text-xl icon-whatsapp",
-    "text-xl icon-linkedin"
+    "text-xl icon-linkedin",
+    "text-xl icon-old-phone",
+    "text-xl icon-check",
+    "text-xl icon-share",
+    "text-xl icon-lock"
   ]
 }
