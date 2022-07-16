@@ -63,7 +63,7 @@ export default {
           value: 'APARTMENT'
         },
         {
-          label: 'Casa particular',
+          label: 'Casa',
           value: 'PRIVATE_HOUSE'
         },
         {
